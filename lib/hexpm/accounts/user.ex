@@ -126,7 +126,7 @@ defmodule Hexpm.Accounts.User do
   def verify_permissions(%User{} = user, domain, name) when domain in ["repository", "docs"] do
     organization = Organizations.get(name)
 
-    if organization && Organizations.access?(organization, user, "read") do
+    if organization && (organization.public || Organizations.access?(organization, user, "read")) do
       {:ok, organization}
     else
       :error
