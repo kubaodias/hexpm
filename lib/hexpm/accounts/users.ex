@@ -38,11 +38,12 @@ defmodule Hexpm.Accounts.Users do
   end
 
   def all_organizations(%User{organizations: organizations}) when is_list(organizations) do
-    [Organization.hexpm() | organizations]
+    Enum.concat(Organizations.all_public(), organizations)
+    |> Enum.uniq()
   end
 
   def all_organizations(nil) do
-    [Organization.hexpm()]
+    Organizations.all_public()
   end
 
   def add(params, audit: audit_data) do

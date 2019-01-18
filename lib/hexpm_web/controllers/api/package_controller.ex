@@ -58,10 +58,11 @@ defmodule HexpmWeb.API.PackageController do
         Users.all_organizations(user)
 
       organization = conn.assigns.current_organization ->
-        [Organization.hexpm(), organization]
+        Enum.concat(Organizations.all_public(), organization)
+        |> Enum.uniq()
 
       true ->
-        [Organization.hexpm()]
+        Organizations.all_public()
     end
   end
 end
